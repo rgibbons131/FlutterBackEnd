@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../login/config/auth.config.js.js");
+const config = require("../../config/auth");
 const db = require("../models");
 const User = db.user;
 verifyToken = (req, res, next) => {
@@ -22,9 +22,6 @@ verifyToken = (req, res, next) => {
 
        const authJwt = {
         verifyToken: verifyToken,
-        isAdmin: isAdmin,
-        isModerator: isModerator,
-        isModeratorOrAdmin: isModeratorOrAdmin
        };
        module.exports = authJwt;
        

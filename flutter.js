@@ -1,6 +1,10 @@
 // Entry Point of the API Server 
   
 const express = require('express');
+var bodyParser = require('body-parser')
+
+var cors = require('cors');
+
 require('dotenv').config();
   
 /* Creates an Express application. 
@@ -10,7 +14,7 @@ require('dotenv').config();
 const app = express();
 const Pool = require('pg').Pool;
 const tls = require('node:tls');
-app.use(cors(corsOptions));
+app.use(cors());
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
@@ -103,8 +107,8 @@ app.get("/", (req, res) => {
  
 
  // routes
- require('./app/routes/auth.routes')(app);
- require('./app/routes/user.routes')(app);
+ require('./app/login/routes/auth')(app);
+ require('./app/login/routes/account')(app);
  // Require the Routes API  
  // Create a Server and run it on the port 3000
  
