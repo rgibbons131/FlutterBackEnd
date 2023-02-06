@@ -13,7 +13,7 @@ require('dotenv').config();
 */
 const app = express();
 const Pool = require('pg').Pool;
-const tls = require('node:tls');
+// const tls = require('node:tls');
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
