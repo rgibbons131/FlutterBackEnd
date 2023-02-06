@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Creates sequelize for comunicating through sql
 const {Sequelize} = require('sequelize'); 
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname'); //example for postgres, Database URI required
+const sequelize = new Sequelize('postgres://admin:5ybyVuxFrsl7LdurKbYEKEAlLr4mcKg3@dpg-cf7b98kgqg47vk2ev6ig-a.oregon-postgres.render.com/fltrbackend?ssl=true'); //example for postgres, Database URI required
 
 const pool = new Pool({
     user: process.env.USER,
