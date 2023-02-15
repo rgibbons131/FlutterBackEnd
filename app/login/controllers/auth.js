@@ -18,7 +18,7 @@ exports.signup = (req, res) => {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     city: req.boy.city,
-    phone: req.body.city,
+    phone: req.body.phone,
     gender: req.body.gender,
     orientation: req.body.gender,
     email: req.body.email,
@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   Account.findOne({
     where: {
-      username: req.body.username
+      username: req.body.email
     }
   })
     .then(Account => {
@@ -55,6 +55,7 @@ exports.signin = (req, res) => {
       var token = jwt.sign({ id: Account.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
+      return res.status(200).send({token})
 
       
     })
