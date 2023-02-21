@@ -42,22 +42,22 @@ async function view_users(){
     console.log(query);
 }
 
-async function add_users(){
-    //ask for user information then add it 
-    var query = await pool.query("INSERT INTO users (first_name, last_name, \
-        city, phone, gender, orientation, email, date_of_birth) VALUES ( \
-            'Jane', 'Doe', 'New York City', '0987654321', 'Female', 'Straight', \
-            'mail@email.com', '2000-10-30')");
-    console.log(query);
-}
+// async function add_users(){
+//     //ask for user information then add it 
+//     var query = await pool.query("INSERT INTO users (first_name, last_name, \
+//         city, phone, gender, orientation, email, date_of_birth) VALUES ( \
+//             'Jane', 'Doe', 'New York City', '0987654321', 'Female', 'Straight', \
+//             'mail@email.com', '2000-10-30')");
+//     console.log(query);
+// }
 
-async function delete_user(){
-    //ask for user information then add it 
-    var query = await pool.query("DELETE FROM users WHERE first_name='John'");
-    console.log(query);
-}
+// async function delete_user(){
+//     //ask for user information then add it 
+//     var query = await pool.query("DELETE FROM users WHERE first_name='John'");
+//     console.log(query);
+// }
 
-add_users();
+// add_users();
 view_users();
 
 

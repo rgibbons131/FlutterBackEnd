@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   Account.findOne({
     where: {
-      username: req.body.email
+      email: req.body.email
     }
   })
     .then(Account => {
@@ -55,6 +55,7 @@ exports.signin = (req, res) => {
       var token = jwt.sign({ user_id: Account.user_id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
+      Account.update({token})
       return res.status(200).send({token})
 
       
@@ -64,11 +65,22 @@ exports.signin = (req, res) => {
     });
 };
 
-exports.authenticate = (req, res) => {
+exports.authenticate = (req) => {
   var cert = jwt.verify(req.token, config.secret);
   Account.findOne({
     where: {
       user_id: cert.user_id
+    }
+  })
+  .then(Account =>{
+    if (!Account) {
+      return false;
+    }
+    if(Account.token == decoded){
+      return true;
+    }
+    else{
+      return false;
     }
   })
 };
