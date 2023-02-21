@@ -9,11 +9,12 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-  // Save User to Database
+  // Save Account to Database
   Account.create({
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
   })
+
   User.create({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -32,7 +33,9 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   Account.findOne({
     where: {
-      username: req.body.email
+
+      email: req.body.email
+
     }
   })
     .then(Account => {
@@ -52,9 +55,12 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: Account.id }, config.secret, {
+      var token = jwt.sign({ user_id: Account.user_id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
+
+      Account.update({token})
+
       return res.status(200).send({token})
 
       
@@ -64,23 +70,23 @@ exports.signin = (req, res) => {
     });
 };
 
-exports.authenticate = (req, res) => {
+
+exports.authenticate = (req) => {
+  var cert = jwt.verify(req.token, config.secret);
   Account.findOne({
     where: {
-      username: req.body.username
+      user_id: cert.user_id
     }
   })
-    .then(Account => {
-      if (!Account) {
-        return false;
-      }
-
-      if(req.body.token == Account.token){
-        return false;
-      }
-
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
+  .then(Account =>{
+    if (!Account) {
+      return false;
+    }
+    if(Account.token == decoded){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
 };

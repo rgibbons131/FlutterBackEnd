@@ -42,6 +42,7 @@ async function view_users(){
     console.log(query);
 }
 
+
 async function add_users(first_name,last_name,city,phone,gender,orientation,email,data_of_birth){
     //ask for user information then add it 
     var query = await pool.query(`INSERT INTO users (first_name, last_name, \
@@ -107,6 +108,7 @@ async function delete_image(id, image_pos){
     var query = await pool.query(`UPDATE images_table SET image_${image_pos} = null WHERE user_id = ${id}`);
     console.log(`user ${id} image ${image_pos} deleted`);
 }
+
 
 view_users();
 
