@@ -1,33 +1,39 @@
 const db = require("../models");
-const ROLES = db.ROLES;
-const Account = db.Account;
+const account = db.account;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
- Account.findOne({
- where: {
-    email: req.body.email
- }
- }).then(Account => {
- if (Account) {
- res.status(400).send({
- message: "Failed! Username is already in use!"
- });
- return;
- }
- // Email
- Account.findOne({
- where: {
- email: req.body.email
- }
- }).then(Account => {
- if (Account) {
- res.status(400).send({
- message: "Failed! Email is already in use!"
- });
- return;
- }
- next();
- });
- });
+  try {
+   account.findOne({
+      where: {
+         email: req.body.email
+      }
+      }).then(account => {
+      if (account) {
+      res.status(400).send({
+      message: "Failed! Username is already in use!"
+      });
+      return;
+      }});
+      // Email
+      account.findOne({
+      where: {
+      email: req.body.email
+      }
+      }).then(account => {
+      if (account) {
+      res.status(400).send({
+      message: "Failed! Email is already in use!"
+      });
+      return;
+      }
+      next();
+      });
+      ;
+  } catch (error) {
+   res.status(400).send({
+      message: "Error finding account"
+      });
+  }
+   
 };
 const verifySignUp = {
 checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,

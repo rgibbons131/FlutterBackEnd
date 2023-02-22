@@ -1,51 +1,60 @@
 const db = require("../models");
 const config = require("../../config/db");
-const Account = db.Account;
-const User = db.User;
+const account = db.account;
+const user = db.user;
 
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
-  // Save Account to Database
-  Account.create({
+exports.signup = async  (req, res) => {
+  // Save account to Database
+  const newAccount = await account.create({
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
   })
+  // .catch(err => {
+  //   res.status(500).send({ message: err.message });
+  // })
+  ;
 
-  User.create({
+  console.log(user)
+
+  const newUser = await user.create({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
-    city: req.boy.city,
+    city: req.body.city,
     phone: req.body.phone,
     gender: req.body.gender,
     orientation: req.body.gender,
     email: req.body.email,
     date_of_birth: req.body.date_of_birth,
   })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
+  // .catch(err => {
+  //   res.status(500).send({ message: err.message })
+  //   ;
+  // })
+  ;
+
 };
 
 exports.signin = (req, res) => {
-  Account.findOne({
+  account.findOne({
     where: {
 
       email: req.body.email
 
     }
   })
-    .then(Account => {
-      if (!Account) {
+    .then(account => {
+      if (!account) {
         return res.status(404).send({ message: "User Not found." });
       }
 
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
-        Account.password
+        account.password
       );
 
       if (!passwordIsValid) {
@@ -55,34 +64,35 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ user_id: Account.user_id }, config.secret, {
+      var token = jwt.sign({ user_id: account.user_id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
-      Account.update({token})
+      account.update({token})
 
       return res.status(200).send({token})
 
       
     })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
+    // .catch(err => {
+    //   res.status(500).send({ message: err.message });
+    // })
+    ;
 };
 
 
 exports.authenticate = (req) => {
   var cert = jwt.verify(req.token, config.secret);
-  Account.findOne({
+  account.findOne({
     where: {
       user_id: cert.user_id
     }
   })
-  .then(Account =>{
-    if (!Account) {
+  .then(account =>{
+    if (!account) {
       return false;
     }
-    if(Account.token == decoded){
+    if(account.token == decoded){
       return true;
     }
     else{
