@@ -14,9 +14,9 @@ exports.signup = async  (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
   })
-  // .catch(err => {
-  //   res.status(500).send({ message: err.message });
-  // })
+  .catch(err => {
+    res.status(500).send({ message: err.message });
+  })
   ;
 
   console.log(user)
@@ -31,10 +31,10 @@ exports.signup = async  (req, res) => {
     email: req.body.email,
     date_of_birth: req.body.date_of_birth,
   })
-  // .catch(err => {
-  //   res.status(500).send({ message: err.message })
-  //   ;
-  // })
+  .catch(err => {
+    res.status(500).send({ message: err.message })
+    ;
+  })
   ;
 
 };

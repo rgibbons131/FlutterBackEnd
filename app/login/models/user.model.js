@@ -1,6 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const user = sequelize.define("user", {
-    user_id: {
+    
+        user_id: {
 
         type: Sequelize.INTEGER
 
@@ -40,5 +41,6 @@ module.exports = (sequelize, Sequelize) => {
   // If don't want updatedAt
   updatedAt: false,
     });
+    user.removeAttribute('id');
     return user;
    };
