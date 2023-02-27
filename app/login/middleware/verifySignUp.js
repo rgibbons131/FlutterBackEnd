@@ -1,6 +1,7 @@
 const db = require("../models");
 const account = db.account;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
+
   try {
    account.findOne({
       where: {
@@ -34,6 +35,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       });
   }
    
+
 };
 const verifySignUp = {
 checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,

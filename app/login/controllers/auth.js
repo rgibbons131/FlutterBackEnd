@@ -8,6 +8,7 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+
 exports.signup = async  (req, res) => {
   // Save account to Database
   const newAccount = await account.create({
@@ -22,6 +23,7 @@ exports.signup = async  (req, res) => {
   console.log(user)
 
   const newUser = await user.create({
+
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     city: req.body.city,
@@ -64,11 +66,13 @@ exports.signin = (req, res) => {
         });
       }
 
+
       var token = jwt.sign({ user_id: account.user_id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
       account.update({token})
+
 
       return res.status(200).send({token})
 
@@ -83,16 +87,20 @@ exports.signin = (req, res) => {
 
 exports.authenticate = (req) => {
   var cert = jwt.verify(req.token, config.secret);
+
   account.findOne({
+
     where: {
       user_id: cert.user_id
     }
   })
+
   .then(account =>{
     if (!account) {
       return false;
     }
     if(account.token == decoded){
+
       return true;
     }
     else{
