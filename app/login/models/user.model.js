@@ -4,9 +4,9 @@ module.exports = (sequelize, Sequelize) => {
     
         user_id: {
 
-        type: Sequelize.INTEGER
 
-
+        type: Sequelize.INTEGER,
+        primaryKey: true
     },
     first_name: {
         type: Sequelize.STRING
@@ -43,6 +43,6 @@ module.exports = (sequelize, Sequelize) => {
   // If don't want updatedAt
   updatedAt: false,
     });
-    user.removeAttribute('id');
+
     return user;
    };
