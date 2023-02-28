@@ -22,8 +22,9 @@ exports.signup = async  (req, res) => {
 
   console.log(user)
 
+  const id = newAccount.user_id;
   const newUser = await user.create({
-
+    user_id: id,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     city: req.body.city,
@@ -38,7 +39,7 @@ exports.signup = async  (req, res) => {
     ;
   })
   ;
-
+  res.status(200).send({message: "ok"});
 };
 
 exports.signin = (req, res) => {
