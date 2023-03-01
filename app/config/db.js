@@ -5,6 +5,6 @@ module.exports = {
     password: process.env.PASS,
     dialect: 'postgres',
     port: 5432,
-    ssl: true
+    dialectOptions:{ssl: true}
    };
    

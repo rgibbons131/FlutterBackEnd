@@ -1,21 +1,23 @@
-const config = require("../../config/db");
+const config = require("../../config/db.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
- config.DB,
- config.USER,
- config.PASSWORD,
+ config.database,
+ config.user,
+ config.password,
  {
     user: config.user,
     host: config.host,
     database: config.database,
     password: config.password,
     dialect: config.dialect,
-    operatorsAliases: false,
+    dialectOptions: config.dialectOptions,
 
  }
 );
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.Account = require("./account.model.js")(sequelize, Sequelize);
+db.account = require("./account.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
 module.exports = db;
