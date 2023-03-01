@@ -83,9 +83,9 @@ exports.signin = (req, res) => {
 
       
     })
-    // .catch(err => {
-    //   res.status(500).send({ message: err.message });
-    // })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    })
     ;
 };
 
@@ -106,10 +106,16 @@ exports.authenticate = (req) => {
     }
     if(account.token == decoded){
 
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-};
+
+    }})};
+
+exports.signout = (req, res) => {
+  if (!req.user) {
+    // If the user is not authenticated, return an error response
+    return res.status(401).send({ message: "User is not authenticated." });
+  }
+
+  res.clearCookie({token}); // Remove the JWT token from the client's cookie or session storage
+  res.status(200).send({ message: "User signed out successfully." });
+
+}
