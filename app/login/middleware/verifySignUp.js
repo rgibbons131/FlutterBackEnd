@@ -15,20 +15,6 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       return;
       }});
       // Email
-      account.findOne({
-      where: {
-      email: req.body.email
-      }
-      }).then(account => {
-      if (account) {
-      res.status(400).send({
-      message: "Failed! Email is already in use!"
-      });
-      return;
-      }
-      next();
-      });
-      ;
   } catch (error) {
    res.status(400).send({
       message: "Error finding account"
