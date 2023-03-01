@@ -42,22 +42,74 @@ async function view_users(){
     console.log(query);
 }
 
-async function add_users(){
+
+async function add_users(first_name,last_name,city,phone,gender,orientation,email,data_of_birth){
     //ask for user information then add it 
-    var query = await pool.query("INSERT INTO users (first_name, last_name, \
+    var query = await pool.query(`INSERT INTO users (first_name, last_name, \
         city, phone, gender, orientation, email, date_of_birth) VALUES ( \
-            'Jane', 'Doe', 'New York City', '0987654321', 'Female', 'Straight', \
-            'mail@email.com', '2000-10-30')");
-    console.log(query);
+            '${first_name}', '${last_name}', '${city}', '${phone}', '${gender}', '${orientation}', \
+            '${email}', '${data_of_birth}')`);
+    console.log("user created");
 }
 
-async function delete_user(){
+async function delete_user(user_id){
     //ask for user information then add it 
-    var query = await pool.query("DELETE FROM users WHERE first_name='John'");
-    console.log(query);
+    var query = await pool.query(`DELETE FROM users WHERE user_id=${user_id}`);
+    console.log(`user ${user_id} deleted`);
 }
 
-add_users();
+async function update_user(field, update){
+    //ask for user information then add it 
+    var query = await pool.query(`UPDATE users SET ${field} = '${update}' WHERE user_id = ${user_id}`);
+    console.log(`user ${user_id} ${field} updated to ${update}`);
+}
+
+async function add_image(id,image_url){
+    var response = await pool.query(`SELECT image_1 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_1) VALUES ('${id}','${image_url}')`);
+        console.log(`image_1 added for user ${id}`)
+        return
+    }
+    var response = await pool.query(`SELECT image_2 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_2) VALUES ('${id}','${image_url}')`);
+        console.log(`image_2 added for user ${id}`)
+        return
+    }
+    var response = await pool.query(`SELECT image_3 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_3) VALUES ('${id}','${image_url}')`);
+        console.log(`image_3 added for user ${id}`)
+        return
+    }
+    var response = await pool.query(`SELECT image_4 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_4) VALUES ('${id}','${image_url}')`);
+        console.log(`image_4 added for user ${id}`)
+        return
+    }
+    var response = await pool.query(`SELECT image_5 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_5) VALUES ('${id}','${image_url}')`);
+        console.log(`image_5 added for user ${id}`)
+        return
+    }
+    var response = await pool.query(`SELECT image_6 FROM images_table WHERE user_id='${id}}'`);
+    if (response = null){
+        var query = await pool.query(`INSERT INTO images_table (user_id, image_6) VALUES ('${id}','${image_url}')`);
+        console.log(`image_6 added for user ${id}`)
+        return
+    }
+    console.log(`All images positions taken for user ${id}`);
+}
+
+async function delete_image(id, image_pos){
+    var query = await pool.query(`UPDATE images_table SET image_${image_pos} = null WHERE user_id = ${id}`);
+    console.log(`user ${id} image ${image_pos} deleted`);
+}
+
+
 view_users();
 
 

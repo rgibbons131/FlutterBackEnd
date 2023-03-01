@@ -1,32 +1,48 @@
 module.exports = (sequelize, Sequelize) => {
-    const Account = sequelize.define("User", {
-    user_id: {
-    type: sequelize.INTEGER
+
+    const user = sequelize.define("user", {
+    
+        user_id: {
+
+
+        type: Sequelize.INTEGER,
+        primaryKey: true
     },
     first_name: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     last_name : {
         type: Sequelize.STRING
     },
     city: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     phone: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     gender: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     orientation: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     email: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
     },
     date_of_birth: {
-        type: sequelize.STRING
+        type: Sequelize.STRING
+    }
     },
+    {
+        // don't add the timestamp attributes (updatedAt, createdAt)
+  timestamps: false,
+
+  // If don't want createdAt
+  createdAt: false,
+
+  // If don't want updatedAt
+  updatedAt: false,
     });
-    return Account;
+
+    return user;
    };
