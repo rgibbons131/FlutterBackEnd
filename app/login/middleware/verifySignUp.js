@@ -3,13 +3,16 @@ const account = db.account;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
 
   try {
+
       account.findOne({
       where: {
       email: req.body.email
+
       }
       }).then(account => {
       if (account) {
       res.status(400).send({
+
       message: "Failed! Email is already in use!"
       });
       return;
@@ -17,6 +20,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       next();
       });
       ;
+
   } catch (error) {
    res.status(400).send({
       message: "Error finding account"
