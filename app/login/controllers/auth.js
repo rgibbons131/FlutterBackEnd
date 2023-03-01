@@ -1,5 +1,6 @@
 const db = require("../models");
 const config = require("../../config/db");
+const key = require("../../config/auth")
 const account = db.account;
 const user = db.user;
 
@@ -72,9 +73,9 @@ exports.signin = (req, res) => {
       }
 
 
-      var token = jwt.sign({ user_id: account.user_id }, config.secret, {
+      var token = jwt.sign({ user_id: account.user_id }, key.secret, {
         expiresIn: 86400 // 24 hours
-      });
+      },);
 
       account.update({token})
 
