@@ -3,7 +3,7 @@ const config = require("../../config/db");
 const key = require("../../config/auth")
 const account = db.account;
 const user = db.user;
-
+const authenticate = require("./tokenAuth")
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -76,7 +76,7 @@ exports.signin = (req, res) => {
       var token = jwt.sign({ user_id: account.user_id }, key.secret, {
         expiresIn: 86400 // 24 hours
       },);
-
+      
       account.update({token})
 
 
@@ -90,33 +90,32 @@ exports.signin = (req, res) => {
     ;
 };
 
-
-exports.authenticate = (req) => {
-  var cert = jwt.verify(req.token, config.secret);
-
-  account.findOne({
-
-    where: {
-      user_id: cert.user_id
-    }
-  })
-
-  .then(account =>{
-    if (!account) {
-      return false;
-    }
-    if(account.token == decoded){
-
-
-    }})};
-
 exports.signout = (req, res) => {
-  if (!req.user) {
+  if (req.body.email == null) {
     // If the user is not authenticated, return an error response
-    return res.status(401).send({ message: "User is not authenticated." });
+    return res.status(401).send({ message: "User is not authenticated1." });
+  }
+  else if (authenticate.authenticate(req) == false) {
+    // If the user is not authenticated, return an error response
+    return res.status(401).send({ message: `User is not authenticated2.` });
+  }
+  else {
+    account.findOne({
+  
+      where: {
+        email: req.body.email
+      }
+    }).then(account => {
+    try{
+      var token = null;
+      account.update({token});
+      console.log(`${account.token}`)
+      res.status(200).send({ message: "User signed out successfully." });}
+    catch(error){
+      return res.status(401).send({ message: "Logout failed." });
+    }})
+
+  
   }
 
-  res.clearCookie({token}); // Remove the JWT token from the client's cookie or session storage
-  res.status(200).send({ message: "User signed out successfully." });
-
-}
+};
