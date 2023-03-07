@@ -14,7 +14,9 @@ exports.allAccess = (req, res) => {
     res.status(200).send("Moderator Content.");
   };
 
+
   module.exports = { deleteAccount };
+
 
   exports.viewProfile = (req, res) => {
     const id = req.params.id;
@@ -82,6 +84,7 @@ exports.allAccess = (req, res) => {
     });
   };
  
+
   // Delete user's profile information and then delete the user from the database
 const deleteAccount = (req, res) => {
 const userId = req.params.userId;
@@ -122,3 +125,4 @@ const userId = req.params.userId;
     res.status(500).send({ message: "Error deleting user: " + err });
   });
 };
+
