@@ -107,7 +107,13 @@ exports.authenticate = (req) => {
     if(account.token == decoded){
 
 
-    }})};
+
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 
 exports.signout = (req, res) => {
   if (!req.user) {
@@ -118,4 +124,6 @@ exports.signout = (req, res) => {
   res.clearCookie({token}); // Remove the JWT token from the client's cookie or session storage
   res.status(200).send({ message: "User signed out successfully." });
 
+
 }
+

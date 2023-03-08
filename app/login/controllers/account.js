@@ -14,6 +14,10 @@ exports.allAccess = (req, res) => {
     res.status(200).send("Moderator Content.");
   };
 
+
+  module.exports = { deleteAccount };
+
+
   exports.viewProfile = (req, res) => {
     const id = req.params.id;
     Account.findByPk(id)
@@ -80,4 +84,45 @@ exports.allAccess = (req, res) => {
     });
   };
  
-  
+
+  // Delete user's profile information and then delete the user from the database
+const deleteAccount = (req, res) => {
+const userId = req.params.userId;
+
+  // Delete user's profile information
+  Account.destroy({
+    where: { user_id: userId }
+  })
+  .then(num => {
+    if (num == 1) {
+      // User's profile information deleted successfully
+      console.log(`User's profile information deleted successfully.`);
+    } else {
+      // User's profile information could not be deleted
+      console.log(`Cannot delete user's profile information. Maybe user was not found!`);
+    }
+  })
+  .catch(err => {
+    // Handle any errors that occur
+    console.log(`Error deleting user's profile information: ${err}`);
+  });
+
+  // Delete user from the database
+  Account.destroy({
+    where: { user_id: userId }
+  })
+  .then(num => {
+    if (num == 1) {
+      // User deleted successfully
+      res.status(200).send({ message: "User deleted successfully!" });
+    } else {
+      // User could not be deleted
+      res.status(400).send({ message: "Cannot delete user. Maybe user was not found!" });
+    }
+  })
+  .catch(err => {
+    // Handle any errors that occur
+    res.status(500).send({ message: "Error deleting user: " + err });
+  });
+};
+
