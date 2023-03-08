@@ -83,7 +83,44 @@ exports.allAccess = (req, res) => {
         });
     });
   };
+
+  function getProfiles(city, gender) {
+    // takes all accounts and filters according to a passed-in city and gender preference 
+    // and returns up to 10
+    const profiles = [];
+    
+    Account.findAll()
+      .then(accounts => {
+        for (const account of accounts) {
+          if ((!city || account.city === city) && (!gender || account.gender === gender)) {
+            profiles.push({
+              id: account.id,
+              username: account.username,
+              email: account.email,
+              firstName: account.firstName,
+              lastName: account.lastName,
+              city: account.city,
+              phone: account.phone,
+              gender: account.gender,
+              orientation: account.orientation,
+              dateOfBirth: account.dateOfBirth
+            });
+          }
+          
+          if (profiles.length >= 10) {
+            break;
+          }
+        }
+        
+        return profiles;
+      })
+      .catch(err => {
+        console.log(err);
+        return [];
+      });
+  }
  
+
 
   // Delete user's profile information and then delete the user from the database
 const deleteAccount = (req, res) => {
@@ -125,4 +162,5 @@ const userId = req.params.userId;
     res.status(500).send({ message: "Error deleting user: " + err });
   });
 };
+
 
