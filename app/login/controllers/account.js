@@ -81,6 +81,7 @@ exports.allAccess = (req, res) => {
     });
   };
 
+
   exports.getProfiles = (req, res) => {
     // takes all accounts and filters according to a passed-in city and gender preference 
     // and returns up to 10
@@ -89,7 +90,9 @@ exports.allAccess = (req, res) => {
     Account.findAll()
       .then(accounts => {
         for (const account of accounts) {
-          if ((!city || account.city === city) && (!gender || account.gender === gender)) {
+
+          if ((!req.body.city || account.city === req.body.city) && (!req.body.gender || account.gender === req.body.gender)) {
+
             profiles.push({
               id: account.id,
               username: account.username,
@@ -108,8 +111,9 @@ exports.allAccess = (req, res) => {
             break;
           }
         }
-        
-        return profiles;
+
+        res.status(200).send({profiles});
+
       })
       .catch(err => {
         console.log(err);
