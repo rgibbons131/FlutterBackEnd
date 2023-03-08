@@ -84,7 +84,7 @@ exports.allAccess = (req, res) => {
     });
   };
 
-  function getProfiles(city, gender) {
+  exports.getProfiles = (req, res) => {
     // takes all accounts and filters according to a passed-in city and gender preference 
     // and returns up to 10
     const profiles = [];
@@ -123,7 +123,7 @@ exports.allAccess = (req, res) => {
 
 
   // Delete user's profile information and then delete the user from the database
-const deleteAccount = (req, res) => {
+exports.deleteAccount = (req, res) => {
 const userId = req.params.userId;
 
   // Delete user's profile information
