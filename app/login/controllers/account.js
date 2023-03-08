@@ -84,7 +84,7 @@ exports.allAccess = (req, res) => {
     });
   };
 
-  function getProfiles(city, gender) {
+  exports.getProfiles = (req, res) => {
     // takes all accounts and filters according to a passed-in city and gender preference 
     // and returns up to 10
     const profiles = [];
