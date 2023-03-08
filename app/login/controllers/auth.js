@@ -90,6 +90,7 @@ exports.signin = (req, res) => {
     ;
 };
 
+
 exports.signout = (req, res) => {
   if (req.body.email == null) {
     // If the user is not authenticated, return an error response
@@ -118,4 +119,6 @@ exports.signout = (req, res) => {
   
   }
 
+
 };
+
