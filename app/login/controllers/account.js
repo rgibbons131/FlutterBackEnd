@@ -130,6 +130,7 @@ exports.allAccess = (req, res) => {
   // Delete user's profile information and then delete the user from the database
 exports.deleteAccount = (req, res) => {
 const userId = req.params.userId;
+  if(authenticate == true){
 
   // Delete user's profile information
   account.destroy({
@@ -165,7 +166,8 @@ const userId = req.params.userId;
   .catch(err => {
     // Handle any errors that occur
     res.status(500).send({ message: "Error deleting user: " + err });
-  });
+  });}
+  res.status(500).send({ message: "User not Authorized to delete account"});
 };
 
 
