@@ -15,9 +15,6 @@ exports.allAccess = (req, res) => {
   };
 
 
-  module.exports = { deleteAccount };
-
-
   exports.viewProfile = (req, res) => {
     const id = req.params.id;
     Account.findByPk(id)
