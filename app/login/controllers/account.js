@@ -84,7 +84,8 @@ exports.allAccess = (req, res) => {
     });
   };
 
-  function getProfiles(city, gender) {
+
+  exports.getProfiles = (req, res) => {
     // takes all accounts and filters according to a passed-in city and gender preference 
     // and returns up to 10
     const profiles = [];
@@ -92,7 +93,9 @@ exports.allAccess = (req, res) => {
     Account.findAll()
       .then(accounts => {
         for (const account of accounts) {
+
           if ((!req.body.city || account.city === req.body.city) && (!req.body.gender || account.gender === req.body.gender)) {
+
             profiles.push({
               id: account.id,
               username: account.username,
@@ -111,7 +114,9 @@ exports.allAccess = (req, res) => {
             break;
           }
         }
+
         res.status(200).send({profiles});
+
       })
       .catch(err => {
         console.log(err);
@@ -122,7 +127,7 @@ exports.allAccess = (req, res) => {
 
 
   // Delete user's profile information and then delete the user from the database
-const deleteAccount = (req, res) => {
+exports.deleteAccount = (req, res) => {
 const userId = req.params.userId;
 
   // Delete user's profile information
