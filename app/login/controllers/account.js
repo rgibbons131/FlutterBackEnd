@@ -1,3 +1,7 @@
+const db = require("../models");
+const config = require("../../config/db");
+const key = require("../../config/auth")
+const account = db.account;
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
@@ -17,7 +21,7 @@ exports.allAccess = (req, res) => {
 
   exports.viewProfile = (req, res) => {
     const id = req.params.id;
-    Account.findByPk(id)
+    account.findByPk(id)
       .then(account => {
         if (!account) {
           return res.status(404).send({ message: "Account not found" });
