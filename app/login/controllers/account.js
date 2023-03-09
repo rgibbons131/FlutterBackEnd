@@ -1,3 +1,11 @@
+<<<<<<< Updated upstream
+=======
+const db = require("../models");
+const config = require("../../config/db");
+const key = require("../../config/auth")
+const account = db.account;
+const user = db.user;
+>>>>>>> Stashed changes
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
@@ -90,11 +98,17 @@ exports.allAccess = (req, res) => {
     // and returns up to 10
     const profiles = [];
     
+<<<<<<< Updated upstream
     Account.findAll()
       .then(accounts => {
         for (const account of accounts) {
+=======
+    user.findAll()
+      .then(users => {
+        for (const user of users) {
+>>>>>>> Stashed changes
 
-          if ((!req.body.city || account.city === req.body.city) && (!req.body.gender || account.gender === req.body.gender)) {
+          if ((account.city === req.body.city) && (account.gender === req.body.gender)) {
 
             profiles.push({
               id: account.id,
