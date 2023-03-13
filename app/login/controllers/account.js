@@ -4,6 +4,8 @@ const config = require("../../config/db");
 const key = require("../../config/auth")
 const account = db.account;
 
+const authenticate = require("./tokenAuth");
+
 const user = db.user;
 
 exports.allAccess = (req, res) => {
@@ -24,6 +26,7 @@ exports.allAccess = (req, res) => {
 
 
   exports.viewProfile = (req, res) => {
+    if(authenticate.authenticate(req) == true){
     const id = req.params.id;
     account.findByPk(id)
       .then(account => {
@@ -51,9 +54,14 @@ exports.allAccess = (req, res) => {
         console.log(err);
         res.status(500).send({ message: err.message });
       });
+    }
+    else{
+      res.status(401).send({message: "Not authorized"});
+    };
   };
 
   exports.getAccount = (req, res) => {
+    if(authenticate.authenticate(req) == true){
     account.findOne({
       where: { id: req.userId },
       attributes: { exclude: ["password"] }
@@ -68,9 +76,14 @@ exports.allAccess = (req, res) => {
       .catch(err => {
         res.status(500).send({ message: err.message });
       });
+    }
+    else{
+      res.status(401).send({message: "Not authorized"});
+    };
   };
   
   exports.updateAccount = (req, res) => {
+    if(authenticate.authenticate(req) == true){
     account.findOne({ where: { id: req.userId } }).then(account => {
       if (!account) {
         return res.status(404).send({ message: "account not found." });
@@ -86,7 +99,10 @@ exports.allAccess = (req, res) => {
         .catch(err => {
           res.status(500).send({ message: err.message });
         });
-    });
+    });}
+    else{
+      res.status(401).send({message: "Not authorized"});
+    };
   };
 
 
@@ -96,11 +112,13 @@ exports.allAccess = (req, res) => {
     const profiles = [];
     
 
+
     user.findAll()
       .then(users => {
         for (const user of users) {
 
           if ((user.city === req.body.city) && (user.gender === req.body.orientation)) {
+
 
 
             profiles.push({
@@ -131,7 +149,10 @@ exports.allAccess = (req, res) => {
       .catch(err => {
         console.log(err);
         return [];
-      });
+      });}
+      else{
+        res.status(401).send({message: "Not authorized"});
+      };
   }
  
 
@@ -139,7 +160,7 @@ exports.allAccess = (req, res) => {
   // Delete user's profile information and then delete the user from the database
 exports.deleteAccount = (req, res) => {
 const userId = req.params.userId;
-  if(authenticate == true){
+  if(authenticate.authenticate(req) == true){
 
   // Delete user's profile information
   account.destroy({
