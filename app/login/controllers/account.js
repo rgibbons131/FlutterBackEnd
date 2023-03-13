@@ -96,11 +96,11 @@ exports.allAccess = (req, res) => {
     const profiles = [];
     
 
-    User.findAll()
+    user.findAll()
       .then(users => {
         for (const user of users) {
 
-          if ((user.city === req.body.city) && (user.gender === req.body.gender)) {
+          if ((user.city === req.body.city) && (user.gender === req.body.orientation)) {
 
 
             profiles.push({
@@ -115,6 +115,9 @@ exports.allAccess = (req, res) => {
               orientation: user.orientation,
               dateOfBirth: user.dateOfBirth
             });
+          }
+          else{
+            profiles.push("test")
           }
           
           if (profiles.length >= 10) {
