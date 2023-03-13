@@ -16,7 +16,9 @@ module.exports = function(app) {
  ],
  controllerAuth.signup
  );
+
  app.post("/api/auth/signin", controllerAuth.signin);
  app.post("/api/auth/signout", controllerAuth.signout);
  app.post("/api/account/feed", controllerAcct.getProfiles);
+
 };
