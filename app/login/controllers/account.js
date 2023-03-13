@@ -3,7 +3,9 @@ const db = require("../models");
 const config = require("../../config/db");
 const key = require("../../config/auth")
 const account = db.account;
+
 const authenticate = require("./tokenAuth");
+
 const user = db.user;
 
 exports.allAccess = (req, res) => {
@@ -109,12 +111,14 @@ exports.allAccess = (req, res) => {
     // and returns up to 10
     const profiles = [];
     
-    if(authenticate.authenticate == true){
-    User.findAll()
+
+
+    user.findAll()
       .then(users => {
         for (const user of users) {
 
-          if ((user.city === req.body.city) && (user.gender === req.body.gender)) {
+          if ((user.city === req.body.city) && (user.gender === req.body.orientation)) {
+
 
 
             profiles.push({
@@ -129,6 +133,9 @@ exports.allAccess = (req, res) => {
               orientation: user.orientation,
               dateOfBirth: user.dateOfBirth
             });
+          }
+          else{
+            profiles.push("test")
           }
           
           if (profiles.length >= 10) {
