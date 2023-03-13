@@ -3,7 +3,9 @@ const db = require("../models");
 const config = require("../../config/db");
 const key = require("../../config/auth")
 const account = db.account;
+
 const user = db.user;
+
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
@@ -21,15 +23,12 @@ exports.allAccess = (req, res) => {
   };
 
 
-  module.exports = { deleteAccount };
-
-
   exports.viewProfile = (req, res) => {
     const id = req.params.id;
-    Account.findByPk(id)
+    account.findByPk(id)
       .then(account => {
         if (!account) {
-          return res.status(404).send({ message: "Account not found" });
+          return res.status(404).send({ message: "account not found" });
         }
   
         // Only return certain fields from the account object
@@ -55,13 +54,13 @@ exports.allAccess = (req, res) => {
   };
 
   exports.getAccount = (req, res) => {
-    Account.findOne({
+    account.findOne({
       where: { id: req.userId },
       attributes: { exclude: ["password"] }
     })
       .then(account => {
         if (!account) {
-          return res.status(404).send({ message: "Account not found." });
+          return res.status(404).send({ message: "account not found." });
         }
   
         res.status(200).send(account);
@@ -72,9 +71,9 @@ exports.allAccess = (req, res) => {
   };
   
   exports.updateAccount = (req, res) => {
-    Account.findOne({ where: { id: req.userId } }).then(account => {
+    account.findOne({ where: { id: req.userId } }).then(account => {
       if (!account) {
-        return res.status(404).send({ message: "Account not found." });
+        return res.status(404).send({ message: "account not found." });
       }
   
       account.email = req.body.email;
@@ -82,7 +81,7 @@ exports.allAccess = (req, res) => {
   
       account.save()
         .then(() => {
-          res.status(200).send({ message: "Account updated successfully!" });
+          res.status(200).send({ message: "account updated successfully!" });
         })
         .catch(err => {
           res.status(500).send({ message: err.message });
@@ -96,11 +95,13 @@ exports.allAccess = (req, res) => {
     // and returns up to 10
     const profiles = [];
     
+
     User.findAll()
       .then(users => {
         for (const user of users) {
 
           if ((user.city === req.body.city) && (user.gender === req.body.gender)) {
+
 
             profiles.push({
               id: user.id,
@@ -135,9 +136,10 @@ exports.allAccess = (req, res) => {
   // Delete user's profile information and then delete the user from the database
 exports.deleteAccount = (req, res) => {
 const userId = req.params.userId;
+  if(authenticate == true){
 
   // Delete user's profile information
-  Account.destroy({
+  account.destroy({
     where: { user_id: userId }
   })
   .then(num => {
@@ -155,7 +157,7 @@ const userId = req.params.userId;
   });
 
   // Delete user from the database
-  Account.destroy({
+  account.destroy({
     where: { user_id: userId }
   })
   .then(num => {
@@ -170,7 +172,8 @@ const userId = req.params.userId;
   .catch(err => {
     // Handle any errors that occur
     res.status(500).send({ message: "Error deleting user: " + err });
-  });
+  });}
+  res.status(500).send({ message: "User not Authorized to delete account"});
 };
 
 
