@@ -2,7 +2,9 @@ const db = require("../models");
 const config = require("../../config/db");
 const key = require("../../config/auth");
 const account = db.account;
+
 const authenticate = require("./tokenAuth");
+
 const user = db.user;
 
 exports.allAccess = (req, res) => {
@@ -113,50 +115,47 @@ exports.updateAccount = (req, res) => {
     });
   } else {
     res.status(401).send({ message: "Not authorized" });
-  }
+  };
 };
 
 exports.getProfiles = (req, res) => {
-  // takes all accounts and filters according to a passed-in city and gender preference
+  // takes all accounts and filters according to a passed-in city and gender preference 
   // and returns up to 10
   const profiles = [];
-  // this is where the token is checked
-  if (authenticate.authenticate == true) {
-    User.findAll()
-      .then((users) => {
-        // Loop through all users
-        for (const user of users) {
-          if (user.city === req.body.city && user.gender === req.body.gender) {
-            profiles.push({
-              id: user.id,
-              username: user.username,
-              email: user.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              city: user.city,
-              phone: user.phone,
-              gender: user.gender,
-              orientation: user.orientation,
-              dateOfBirth: user.dateOfBirth,
-            });
-          }
-          // If we have 10 profiles, break out of the loop
-          if (profiles.length >= 10) {
-            break;
-          }
+  user.findAll()
+    .then(users => {
+      for (const user of users) {
+
+        if ((user.city === req.body.city) && (user.gender === req.body.orientation)) {
+          profiles.push({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            city: user.city,
+            phone: user.phone,
+            gender: user.gender,
+            orientation: user.orientation,
+            dateOfBirth: user.dateOfBirth
+          });
         }
-        // Return the created profiles array as a response.
-        res.status(200).send({ profiles });
-      })
-      // Catch any errors
-      .catch((err) => {
-        console.log(err);
-        return [];
-      });
-  } else {
-    res.status(401).send({ message: "Not authorized" });
-  }
-};
+        else{
+          profiles.push("test")
+        }
+        
+        if (profiles.length >= 10) {
+          break;
+        }
+      }
+
+      res.status(200).send({profiles});
+
+    })
+    .catch(err => {
+      console.log(err);
+      return [];
+    });}
 
 // Delete user's profile information and then delete the user from the database
 exports.deleteAccount = (req, res) => {
