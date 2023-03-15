@@ -25,6 +25,7 @@ exports.moderatorBoard = (req, res) => {
 
 // Find and view user profile
 exports.viewProfile = (req, res) => {
+  try{
   if (authenticate.authenticate(req) == true) {
     const id = req.params.id;
     account
@@ -59,10 +60,15 @@ exports.viewProfile = (req, res) => {
     // If the user is not authenticated, return an error
     res.status(401).send({ message: "Not authorized" });
   }
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
 
 // Find and view user profile by username (for search)
 exports.getAccount = (req, res) => {
+  try{
   if (authenticate.authenticate(req) == true) {
     // Get the username from the request.
     account
@@ -87,10 +93,15 @@ exports.getAccount = (req, res) => {
     // If the user is not authenticated, return an error
     res.status(401).send({ message: "Not authorized" });
   }
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
 
 // Update an account by the id in the request
 exports.updateAccount = (req, res) => {
+  try{
   if (authenticate.authenticate(req) == true) {
     // Get the id from the request.
     account.findOne({ where: { id: req.userId } }).then((account) => {
@@ -116,9 +127,14 @@ exports.updateAccount = (req, res) => {
   } else {
     res.status(401).send({ message: "Not authorized" });
   };
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
 
 exports.getProfiles = (req, res) => {
+  try{
   // takes all accounts and filters according to a passed-in city and gender preference 
   // and returns up to 10
   const profiles = [];
@@ -156,9 +172,14 @@ exports.getProfiles = (req, res) => {
       console.log(err);
       return [];
     });}
+  catch(err){
+    console.log(err)
+    res.status(500).send({ message: err.message });
+  };}
 
 // Delete user's profile information and then delete the user from the database
 exports.deleteAccount = (req, res) => {
+  try{
   const userId = req.params.userId;
   if (authenticate.authenticate(req) == true) {
     // Delete user's profile information
@@ -204,4 +225,8 @@ exports.deleteAccount = (req, res) => {
       });
   }
   res.status(500).send({ message: "User not Authorized to delete account" });
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}

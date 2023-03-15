@@ -11,6 +11,7 @@ var bcrypt = require("bcryptjs");
 
 // Create and Save a new account
 exports.signup = async (req, res) => {
+  try{
   // Save account to Database
   const newAccount = await account
     .create({
@@ -46,10 +47,16 @@ exports.signup = async (req, res) => {
     });
   // Return a success message
   res.status(200).send({ message: "ok" });
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
+
 
 // Sign in to an existing account
 exports.signin = (req, res) => {
+  try{
   // Find the account in the database by email
   account
     .findOne({
@@ -89,10 +96,15 @@ exports.signin = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
 
 // Sign out of an existing account and remove the token
 exports.signout = (req, res) => {
+  try{
   if (req.body.email == null) {
     // If the user is not authenticated, return an error response
     return res.status(401).send({ message: "User is not authenticated1." });
@@ -117,4 +129,8 @@ exports.signout = (req, res) => {
         }
       });
   }
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}

@@ -10,6 +10,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 // authenticates the user and returns a token
 exports.authenticate = (req) => {
+  try{
   account
     .findOne({
       where: {
@@ -34,4 +35,8 @@ exports.authenticate = (req) => {
       }
     });
   console.log(`end`);
-};
+}
+catch(err){
+  console.log(err)
+  res.status(500).send({ message: err.message });
+};}
