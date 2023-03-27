@@ -73,7 +73,7 @@ exports.getAccount = (req, res) => {
     // Get the username from the request.
     account
       .findOne({
-        where: { id: req.userId },
+        where: { email: req.email },
         attributes: { exclude: ["password"] },
       })
       .then((account) => {
