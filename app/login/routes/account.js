@@ -20,6 +20,6 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/account", [authJwt.verifyToken], controller.getAccount);
-  app.put("/api/account", [authJwt.verifyToken], controller.updateAccount);
+  app.get("/api/account", controller.getAccount);
+  app.put("/api/account", controller.updateAccount);
 };
