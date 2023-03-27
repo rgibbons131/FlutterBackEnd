@@ -26,7 +26,7 @@ exports.moderatorBoard = (req, res) => {
 // Find and view user profile
 exports.viewProfile = (req, res) => {
   try{
-  if (authenticate.authenticate(req) == true) {
+  // if (authenticate.authenticate(req) == true) {
     const id = req.params.id;
     account
       .findByPk(id)
@@ -56,10 +56,10 @@ exports.viewProfile = (req, res) => {
         console.log(err);
         res.status(500).send({ message: err.message });
       });
-  } else {
-    // If the user is not authenticated, return an error
-    res.status(401).send({ message: "Not authorized" });
-  }
+  // } else {
+  //   // If the user is not authenticated, return an error
+  //   res.status(401).send({ message: "Not authorized" });
+  // }
 }
 catch(err){
   console.log(err)
@@ -69,7 +69,7 @@ catch(err){
 // Find and view user profile by username (for search)
 exports.getAccount = (req, res) => {
   try{
-  if (authenticate.authenticate(req) == true) {
+  // if (authenticate.authenticate(req) == true) {
     // Get the username from the request.
     account
       .findOne({
@@ -89,10 +89,10 @@ exports.getAccount = (req, res) => {
         // Return a 500 error.
         res.status(500).send({ message: err.message });
       });
-  } else {
-    // If the user is not authenticated, return an error
-    res.status(401).send({ message: "Not authorized" });
-  }
+  // } else {
+  //   // If the user is not authenticated, return an error
+  //   res.status(401).send({ message: "Not authorized" });
+  // }
 }
 catch(err){
   console.log(err)
