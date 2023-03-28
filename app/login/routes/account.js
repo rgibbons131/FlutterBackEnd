@@ -20,6 +20,6 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/account", controller.getAccount);
+  app.post("/api/account", controller.getProfiles);
   app.put("/api/account", controller.updateAccount);
 };

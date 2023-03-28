@@ -140,20 +140,26 @@ exports.getProfiles = (req, res) => {
   const profiles = [];
   user.findAll()
     .then(users => {
+      var person = undefined;
       for (const user of users) {
-
-        if ((user.city === req.body.city) && (user.gender === req.body.orientation)) {
+        if (req.body.email == user.email){
+          person = user;
+          break
+        }
+      }
+      for (const user of users) {
+        if (typeof person === 'undefined'){break}
+        if ((user.city === person.city) && (user.gender === person.orientation)) {
           profiles.push({
-            id: user.id,
-            username: user.username,
+            user_id: user.user_id,
             email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            first_name: user.first_name,
+            last_name: user.last_name,
             city: user.city,
             phone: user.phone,
             gender: user.gender,
             orientation: user.orientation,
-            dateOfBirth: user.dateOfBirth
+            date_of_birth: user.date_of_birth
           });
         }
         else{
