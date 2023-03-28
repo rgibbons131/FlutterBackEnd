@@ -136,11 +136,13 @@ catch(err){
 exports.getProfiles = (req, res) => {
   try{
   // takes all accounts and filters according to a passed-in city and gender preference 
-  // and returns up to 10
+  // and returns up to 5
   const profiles = [];
   user.findAll()
+    // loops through each user in database
     .then(users => {
       var person = undefined;
+      // check if current user equal to logged-in user
       for (const user of users) {
         if (req.body.email == user.email){
           person = user;
@@ -149,6 +151,8 @@ exports.getProfiles = (req, res) => {
       }
       for (const user of users) {
         if (typeof person === 'undefined'){break}
+        // add profile to list of potential matches/profiles-to-display based
+        // on whether the city is the same and gender and orientation match
         if ((user.city === person.city) && (user.gender === person.orientation)) {
           profiles.push({
             user_id: user.user_id,
@@ -166,11 +170,11 @@ exports.getProfiles = (req, res) => {
           profiles.push("test")
         }
         
-        if (profiles.length >= 10) {
+        if (profiles.length >= 5) {
           break;
         }
       }
-
+      //send list of profiles to frontend
       res.status(200).send({profiles});
 
     })
