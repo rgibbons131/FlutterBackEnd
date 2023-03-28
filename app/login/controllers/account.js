@@ -159,7 +159,12 @@ exports.getProfiles = (req, res) => {
             phone: user.phone,
             gender: user.gender,
             orientation: user.orientation,
-            date_of_birth: user.date_of_birth
+            date_of_birth: user.date_of_birth,
+            image_1: user.image_1,
+            image_2: user.image_2,
+            image_3: user.image_3,
+            image_4: user.image_4,
+            image_5: user.image_5
           });
         }
         else{
