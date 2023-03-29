@@ -47,6 +47,11 @@ exports.viewProfile = (req, res) => {
           gender: account.gender,
           orientation: account.orientation,
           dateOfBirth: account.dateOfBirth,
+          image_1: user.image_1,
+          image_2: user.image_2,
+          image_3: user.image_3,
+          image_4: user.image_4,
+          image_5: user.image_5
         };
         // Return the profile object
         res.status(200).send({ profile: profile });
